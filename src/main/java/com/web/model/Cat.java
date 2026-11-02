@@ -31,7 +31,7 @@ public class Cat {
   //@Size(max = 150, message = "La descripción admite como máximo 150 caracteres") --> Mirar en pgadmin VARCHAR (?)
   @Schema(description = "Descripción de la personalidad del gato", example = "Cariñosa, juguetona y dormilona")
   private String description;
-  @Schema(description = "Fotografía del gato", example = "iris.jpg")
+  @Schema(description = "Fotografía del gato", example = "/img/iris.jpg")
   private String imageUrl;
   @NotBlank(message = "El estado de la adopción es obligatorio")
   @Schema(description = "Estado de la adopción", example = "AVAILABLE")

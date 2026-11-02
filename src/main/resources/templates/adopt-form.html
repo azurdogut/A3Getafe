@@ -1,39 +1,309 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Solicitud de Adopción</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="'Solicitud de Adopción - ' + ${cat.name} + ' - A3Getafe'">Solicitud de Adopción - A3Getafe</title>
+
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Fuentes Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --a3-ink: #14202b;
+            --a3-teal: #1fa588;
+            --a3-teal-dark: #178a72;
+            --a3-text: #5b6670;
+            --a3-paper: #ffffff;
+
+            --bs-body-font-family: 'Figtree', system-ui, sans-serif;
+            --bs-body-color: var(--a3-text);
+        }
+
+        h1, h2, h3, .a3-logo { font-family: 'Fraunces', Georgia, serif; }
+        h1, h2, h3 { color: var(--a3-ink); font-weight: 700; }
+
+        /* ---------- Barra superior y Navegación ---------- */
+        .a3-topbar {
+            background: var(--a3-ink);
+            color: #cbd5dc;
+            font-size: .8rem;
+            padding: .55rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .a3-topbar a { color: inherit; text-decoration: none; }
+        .a3-topbar a:hover { color: #fff; }
+
+        .a3-nav { background-color: var(--a3-ink); }
+        .a3-nav .navbar-brand { color: #fff; line-height: 1; }
+        .a3-logo-img { height: 40px; width: auto; object-fit: contain; }
+        .a3-logo { font-size: 1.75rem; font-weight: 700; display: block; }
+        .a3-logo-sub { font-size: .72rem; letter-spacing: .04em; color: #cbd5dc; }
+        .a3-nav .nav-link { color: #f1f5f7; padding: .5rem 1rem; font-weight: 500; }
+        .a3-nav .nav-link:hover { color: var(--a3-teal); }
+
+        .btn-a3 {
+            background: var(--a3-teal);
+            border-color: var(--a3-teal);
+            color: #fff;
+            border-radius: 50rem;
+            font-weight: 600;
+            padding: .75rem 1.75rem;
+            transition: all .2s ease-in-out;
+        }
+        .btn-a3:hover:not(:disabled) {
+            background: var(--a3-teal-dark);
+            border-color: var(--a3-teal-dark);
+            color: #fff;
+        }
+        .btn-a3:disabled {
+            background-color: #a0aec0;
+            border-color: #a0aec0;
+            cursor: not-allowed;
+            opacity: 0.65;
+        }
+
+        .btn-a3-outline {
+            border: 1px solid rgba(255,255,255,.7);
+            color: #fff;
+            border-radius: 50rem;
+            font-weight: 600;
+            padding: .4rem 1.25rem;
+            transition: all .2s ease-in-out;
+        }
+        .btn-a3-outline:hover { background: #fff; color: var(--a3-ink); }
+
+        .btn-a3-light-outline {
+            border: 1px solid #cbd5dc;
+            color: var(--a3-text);
+            background: transparent;
+            border-radius: 50rem;
+            font-weight: 600;
+            padding: .6rem 1.5rem;
+            transition: all .2s ease-in-out;
+        }
+        .btn-a3-light-outline:hover {
+            background: #f1f5f7;
+            color: var(--a3-ink);
+        }
+
+        /* ---------- Migas de Pan (Breadcrumbs) ---------- */
+        .breadcrumb-item a { color: #8c9ba5; text-decoration: none; }
+        .breadcrumb-item a:hover { color: var(--a3-teal); }
+        .breadcrumb-item.active { color: var(--a3-teal); font-weight: 500; }
+
+        /* ---------- Tarjeta del Formulario y Lateral ---------- */
+        .a3-card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+            background: #fff;
+        }
+
+        .cat-preview-card {
+            border: none;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+            background: #fff;
+        }
+
+        .cat-preview-img {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--a3-ink);
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            border-color: #cbd5dc;
+        }
+        .form-control:focus {
+            border-color: var(--a3-teal);
+            box-shadow: 0 0 0 0.25rem rgba(31, 165, 136, 0.15);
+        }
+
+        .a3-eyebrow { color: var(--a3-teal); font-weight: 600; font-size: 0.95rem; }
+
+        /* ---------- Imagen de Cierre (a3g.jpg) ---------- */
+        .a3g-footer-banner {
+            width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        footer.a3-footer {
+            background: var(--a3-ink);
+            color: #cbd5dc;
+            font-size: .9rem;
+            padding: 1.75rem 0;
+            margin-top: 4rem;
+        }
+    </style>
 </head>
 <body>
-<div class="container py-5" style="max-width: 600px;">
-    <div class="card shadow p-4">
-        <h2 class="mb-3 text-center">Solicitud para <span th:text="${cat.name}">Gato</span></h2>
 
-        <form th:action="@{/adopt}" th:object="${adoptionRequest}" method="post">
-            <input type="hidden" th:field="*{cat.id}" />
-
-            <div class="mb-3">
-                <label for="applicantName" class="form-label">Tu Nombre completo:</label>
-                <input type="text" id="applicantName" th:field="*{applicantName}" class="form-control" th:classappend="${#fields.hasErrors('applicantName')} ? 'is-invalid'" />
-                <div class="invalid-feedback" th:errors="*{applicantName}">Error en el nombre</div>
-            </div>
-
-            <div class="mb-3">
-                <label for="email" class="form-label">Correo Electrónico:</label>
-                <input type="email" id="email" th:field="*{email}" class="form-control" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" />
-                <div class="invalid-feedback" th:errors="*{email}">Error en el email</div>
-            </div>
-
-            <div class="mb-3">
-                <label for="message" class="form-label">Cuéntanos por qué quieres adoptarlo:</label>
-                <textarea id="message" th:field="*{message}" class="form-control" rows="4"></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100">Enviar Solicitud</button>
-            <a th:href="@{/cats/{id}(id=${cat.id})}" class="btn btn-outline-secondary w-100 mt-2">Cancelar</a>
-        </form>
+<!-- Barra superior -->
+<div class="a3-topbar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span>Asociación protectora de gatos · Getafe</span>
+        <span class="d-none d-sm-inline">
+            <a href="mailto:info@a3getafe.org"><i class="bi bi-envelope me-1"></i>info@a3getafe.org</a>
+        </span>
     </div>
 </div>
+
+<!-- Navegación Superior -->
+<nav class="navbar navbar-expand-lg navbar-dark a3-nav py-3">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" th:href="@{/}">
+            <img th:src="@{/img/logo.jpg}" alt="Logo A3Getafe" class="a3-logo-img">
+            <div>
+                <span class="a3-logo">A3Getafe</span>
+                <span class="a3-logo-sub">Protectora de gatos</span>
+            </div>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#menuPrincipal" aria-controls="menuPrincipal"
+                aria-expanded="false" aria-label="Abrir menú">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="menuPrincipal">
+            <ul class="navbar-nav align-items-lg-center gap-1">
+                <li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/cats}">Catálogo</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/colabora}">Colabora</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/swagger-ui/index.html}" target="_blank" rel="noopener">API Swagger</a></li>
+                <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                    <a class="btn btn-a3-outline" th:href="@{/cats}">Adopta</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Contenido Principal -->
+<main class="container py-4">
+
+    <!-- Migas de pan (Breadcrumbs) -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">Inicio</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/cats}">Catálogo</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/cats/{id}(id=${cat.id})}" th:text="${cat.name}">Gato</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Adopción</li>
+        </ol>
+    </nav>
+
+    <div class="row g-4 align-items-start">
+
+        <!-- Columna Izquierda: Imagen e info del gato a adoptar -->
+        <div class="col-lg-5">
+            <div class="card cat-preview-card">
+                <img th:src="${cat.imageUrl != null} ? @{${cat.imageUrl}} : @{/img/gato-sin-foto.jpg}"
+                     th:alt="'Foto de ' + ${cat.name}"
+                     class="cat-preview-img">
+                <div class="card-body p-4">
+                    <span class="a3-eyebrow">Quieres darle un hogar a...</span>
+                    <h2 class="h3 mb-1" th:text="${cat.name}">Nombre del gato</h2>
+                    <p class="text-secondary small mb-0"><i class="bi bi-paw me-1"></i><span th:text="${cat.ageDescription}">Edad</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna Derecha: Tarjeta del Formulario -->
+        <div class="col-lg-7">
+            <div class="card a3-card p-4 p-md-5">
+                <div class="mb-4">
+                    <p class="a3-eyebrow mb-1 text-uppercase tracking-wide">Inicia tu proceso</p>
+                    <h1 class="h2 mb-2">Formulario de adopción</h1>
+                    <p class="text-secondary small mb-0">Completa los datos y nos pondremos en contacto contigo lo antes posible.</p>
+                </div>
+
+                <form id="adoptionForm" th:action="@{/adopt}" th:object="${adoptionRequest}" method="post">
+                    <input type="hidden" th:field="*{cat.id}" />
+
+                    <div class="mb-3">
+                        <label for="applicantName" class="form-label">Tu Nombre completo:</label>
+                        <input type="text" id="applicantName" th:field="*{applicantName}" class="form-control required-field" th:classappend="${#fields.hasErrors('applicantName')} ? 'is-invalid'" placeholder="Ej. Ana Gómez Pérez" required />
+                        <div class="invalid-feedback" th:errors="*{applicantName}">Error en el nombre</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo Electrónico:</label>
+                        <input type="email" id="email" th:field="*{email}" class="form-control required-field" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" placeholder="Ej. ana@correo.com" required />
+                        <div class="invalid-feedback" th:errors="*{email}">Error en el email</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="message" class="form-label">Cuéntanos por qué quieres adoptarlo:</label>
+                        <textarea id="message" th:field="*{message}" class="form-control required-field" rows="4" placeholder="Escribe brevemente sobre tu experiencia con animales, tu hogar..." required></textarea>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="btn btn-a3 w-100 py-3 mb-2" disabled>
+                        <i class="bi bi-heart me-2"></i> Enviar Solicitud de Adopción
+                    </button>
+                    <a th:href="@{/cats/{id}(id=${cat.id})}" class="btn btn-a3-light-outline w-100 text-center">Cancelar y volver</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Imagen al final del formulario (a3g.jpg) -->
+    <div class="mt-5">
+        <img th:src="@{/img/a3g.jpg}" alt="A3Getafe" class="a3g-footer-banner">
+    </div>
+
+</main>
+
+<footer class="a3-footer">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <span>© A3Getafe · Protectora de gatos</span>
+        <a class="text-reset text-decoration-none" th:href="@{/colabora}">Cómo colaborar</a>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Script de validación de campos vacíos -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('adoptionForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const requiredInputs = form.querySelectorAll('.required-field');
+
+        function checkInputs() {
+            let allFilled = true;
+            requiredInputs.forEach(input => {
+                if (!input.value.trim()) {
+                    allFilled = false;
+                }
+            });
+            submitBtn.disabled = !allFilled;
+        }
+
+        requiredInputs.forEach(input => {
+            input.addEventListener('input', checkInputs);
+            input.addEventListener('change', checkInputs);
+        });
+
+        checkInputs();
+    });
+</script>
 </body>
 </html>

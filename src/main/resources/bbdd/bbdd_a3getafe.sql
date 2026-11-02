@@ -131,7 +131,7 @@ INSERT INTO public.adoption_request (id, applicant_name, email, message, created
 INSERT INTO public.cat (id, name, age_description, description, image_url, status) VALUES (1, 'Luna', '2 años', 'Gata cariñosa y tranquila, ideal para una familia.', 'https://example.com/images/luna.jpg', 'AVAILABLE');
 INSERT INTO public.cat (id, name, age_description, description, image_url, status) VALUES (2, 'Simba', '6 meses', 'Gatito juguetón, curioso y sociable.', 'https://example.com/images/simba.jpg', 'AVAILABLE');
 INSERT INTO public.cat (id, name, age_description, description, image_url, status) VALUES (3, 'Milo', '4 años', 'Gato independiente que disfruta de los lugares tranquilos.', 'https://example.com/images/milo.jpg', 'RESERVED');
-INSERT INTO public.cat (id, name, age_description, description, image_url, status) VALUES (5, 'Iris', '2 años', 'Cariñosa, juguetona y dormilona', 'iris.jpg', 'AVAILABLE');
+INSERT INTO public.cat (id, name, age_description, description, image_url, status) VALUES (5, 'Iris', '2 años', 'Cariñosa, juguetona y dormilona', '/img/iris.jpg', 'AVAILABLE');
 
 
 --

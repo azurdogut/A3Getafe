@@ -1,40 +1,380 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Colabora - A3Getafe</title>
+
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Fuentes Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --a3-ink: #14202b;       /* Navbar y títulos */
+            --a3-teal: #1fa588;      /* Botones y acentos */
+            --a3-teal-dark: #178a72;
+            --a3-text: #5b6670;
+            --bs-body-font-family: 'Figtree', system-ui, sans-serif;
+            --bs-body-color: var(--a3-text);
+        }
+
+        h1, h2, h3, .a3-logo { font-family: 'Fraunces', Georgia, serif; }
+        h1, h2, h3 { color: var(--a3-ink); font-weight: 700; }
+
+        /* ---------- Navbar Superior ---------- */
+        .a3-nav { background-color: var(--a3-ink); }
+        .a3-nav .navbar-brand { color: #fff; line-height: 1; }
+        .a3-logo { font-size: 1.75rem; font-weight: 700; display: block; }
+        .a3-logo-sub { font-size: .72rem; letter-spacing: .04em; color: #cbd5dc; }
+        .a3-nav .nav-link { color: #f1f5f7; padding: .5rem 1rem; font-weight: 500; }
+        .a3-nav .nav-link:hover, .a3-nav .nav-link.active { color: var(--a3-teal); }
+
+        .btn-a3-outline {
+            border: 1px solid rgba(255,255,255,.7);
+            color: #fff;
+            border-radius: 50rem;
+            font-weight: 600;
+            padding: .4rem 1.25rem;
+            transition: all .2s ease-in-out;
+        }
+        .btn-a3-outline:hover { background: #fff; color: var(--a3-ink); }
+
+        /* ---------- Migas de Pan (Breadcrumbs) ---------- */
+        .breadcrumb-item a { color: #8c9ba5; text-decoration: none; }
+        .breadcrumb-item a:hover { color: var(--a3-teal); }
+        .breadcrumb-item.active { color: var(--a3-teal); font-weight: 500; }
+
+        /* ---------- Columna Izquierda (Imagen Lateral) ---------- */
+        .col-image-side {
+            position: relative;
+            min-height: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            background: linear-gradient(180deg, rgba(20,32,43,0.1) 0%, rgba(20,32,43,0.85) 100%),
+            url('/img/donacion.jpg') center / cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2.5rem;
+            color: #fff;
+        }
+        .col-image-side h2 {
+            color: #fff;
+            font-size: 2.2rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        /* ---------- Tarjetas de Opciones de Ayuda ---------- */
+        .card-help {
+            border: 1px solid #edf2f7;
+            border-radius: 16px;
+            padding: 2rem 1.25rem;
+            text-align: center;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            transition: transform .2s ease, box-shadow .2s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card-help:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+
+        .icon-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+            font-size: 1.5rem;
+        }
+        /* Colores específicos de los iconos */
+        .icon-socio { background-color: #ffe8e0; color: #ff6b4a; }
+        .icon-donacion { background-color: #e0f2fe; color: #0284c7; }
+        .icon-acoge { background-color: #fef3c7; color: #d97706; }
+        .icon-voluntario { background-color: #f3e8ff; color: #9333ea; }
+
+        .btn-card-action {
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            width: 100%;
+            background: #fff;
+            transition: all .2s;
+        }
+        .btn-card-socio { border: 1px solid #ff6b4a; color: #ff6b4a; }
+        .btn-card-socio:hover { background: #ff6b4a; color: #fff; }
+
+        .btn-card-donacion { border: 1px solid #0284c7; color: #0284c7; }
+        .btn-card-donacion:hover { background: #0284c7; color: #fff; }
+
+        .btn-card-acoge { border: 1px solid #d97706; color: #d97706; }
+        .btn-card-acoge:hover { background: #d97706; color: #fff; }
+
+        .btn-card-voluntario { border: 1px solid #9333ea; color: #9333ea; }
+        .btn-card-voluntario:hover { background: #9333ea; color: #fff; }
+
+        /* ---------- Enlaces de ayuda ---------- */
+        .link-box {
+            border: 1px solid #edf2f7;
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        .link-box-icon {
+            font-size: 1.5rem;
+            color: var(--a3-ink);
+            background: #f8fafc;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ---------- Cita final ---------- */
+        .quote-box {
+            background-color: #fffbeb;
+            border-radius: 16px;
+            padding: 1.75rem 2rem;
+            position: relative;
+            margin-top: 2rem;
+        }
+        .quote-icon {
+            font-size: 2.5rem;
+            color: #f59e0b;
+            line-height: 1;
+            font-family: Georgia, serif;
+        }
+        .a3-logo-img {
+            height: 42px;         /* Ajusta la altura del logo según tus preferencias */
+            width: auto;
+            object-fit: contain;
+        }
+        /* ---------- Imagen de Cierre (a3g.jpg) ---------- */
+        .a3g-footer-banner {
+            width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        footer.a3-footer { background: var(--a3-ink); color: #cbd5dc; font-size: .9rem; padding: 1.75rem 0; margin-top: 5rem; }
+    </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+
+<!-- Navegación Superior -->
+<nav class="navbar navbar-expand-lg navbar-dark a3-nav py-3">
     <div class="container">
-        <a class="navbar-brand" href="/">🐱 A3Getafe</a>
-        <div class="navbar-nav ms-auto">
-            <a class="nav-link" href="/">Inicio</a>
-            <a class="nav-link" href="/cats">Catálogo</a>
-            <a class="nav-link active" href="/colabora">Colabora</a>
+        <a class="navbar-brand d-flex align-items-center gap-2" th:href="@{/}">
+            <img th:src="@{/img/logo.jpg}" alt="Logo A3Getafe" class="a3-logo-img">
+            <div>
+                <span class="a3-logo">A3Getafe</span>
+                <span class="a3-logo-sub">Protectora de gatos</span>
+            </div>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#menuPrincipal" aria-controls="menuPrincipal"
+                aria-expanded="false" aria-label="Abrir menú">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="menuPrincipal">
+            <ul class="navbar-nav align-items-lg-center gap-1">
+                <li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/cats}">Catálogo</a></li>
+                <li class="nav-item"><a class="nav-link active" th:href="@{/colabora}">Colabora</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/swagger-ui/index.html}" target="_blank" rel="noopener">API Swagger</a></li>
+                <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                    <a class="btn btn-a3-outline" th:href="@{/cats}">Adopta</a>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
 
-<div class="container" style="max-width: 800px;">
-    <h1 class="mb-4">¿Cómo puedes colaborar con A3Getafe?</h1>
-    <p class="lead">Nuestra protectora subsiste gracias al esfuerzo de los voluntarios y las aportaciones solidarias. Hay muchas formas en las que puedes ayudar:</p>
+<!-- Contenido Principal -->
+<main class="container py-4">
 
-    <div class="row mt-4">
-        <div class="col-md-6 mb-3">
-            <div class="card h-100 shadow-sm p-3">
-                <h3>🤝 Hazte Voluntario</h3>
-                <p>Ayúdanos en el refugio, en la socialización de los gatos, transporte veterinario o en la difusión en redes sociales.</p>
+    <!-- Migas de pan (Breadcrumbs) -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">Inicio</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Colabora</li>
+        </ol>
+    </nav>
+
+    <div class="row g-5">
+
+        <!-- Columna Izquierda: Imagen con Frase -->
+        <div class="col-lg-5">
+            <div class="col-image-side">
+                <h2>Juntos, podemos<br>darles una vida<br>mejor.</h2>
+                <div><i class="bi bi-heart-fill fs-3 text-white"></i></div>
             </div>
         </div>
-        <div class="col-md-6 mb-3">
-            <div class="card h-100 shadow-sm p-3">
-                <h3>💰 Donaciones</h3>
-                <p>Las aportaciones económicas nos permiten cubrir gastos veterinarios, operaciones y alimentación especializada.</p>
+
+        <!-- Columna Derecha: Opciones de Colaboración -->
+        <div class="col-lg-7 ps-lg-4">
+            <h1 class="display-5 fw-bold mb-3">Colabora con nuestra labor</h1>
+            <p class="text-secondary lead fs-6 mb-4" style="line-height: 1.7;">
+                Cada gesto cuenta. Gracias a personas como tú, podemos seguir rescatando, cuidando y buscando hogares para gatos que lo necesitan.
+            </p>
+
+            <h3 class="h4 mb-4 mt-5">¿Cómo puedes ayudarnos?</h3>
+
+            <!-- 4 Tarjetas de opciones -->
+            <div class="row row-cols-1 row-cols-sm-2 g-3 mb-5">
+
+                <!-- Tarjeta 1: Hazte socio -->
+                <div class="col">
+                    <div class="card-help">
+                        <div>
+                            <div class="icon-circle icon-socio">
+                                <i class="bi bi-heart"></i>
+                            </div>
+                            <h4 class="h5 fw-bold text-dark">Hazte socio</h4>
+                            <p class="small text-secondary mb-4">
+                                Tu apoyo mensual nos permite cubrir gastos básicos y seguir ayudando.
+                            </p>
+                        </div>
+                        <a href="https://www.teaming.net/login?source=JOIN_GROUP&callbackUrl=%2Fgroup%2Fjoin&grpReference=QPCBltMZUBF07QGGObVK7YiV9uWGhgty6hR88FSMcUgCq"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="btn btn-card-action btn-card-socio">Más información</a>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 2: Haz una donación -->
+                <div class="col">
+                    <div class="card-help">
+                        <div>
+                            <div class="icon-circle icon-donacion">
+                                <i class="bi bi-gift"></i>
+                            </div>
+                            <h4 class="h5 fw-bold text-dark">Haz una donación</h4>
+                            <p class="small text-secondary mb-4">
+                                Con tu donación podemos ofrecer alimentos, atención veterinaria y cuidados.
+                            </p>
+                        </div>
+                        <!-- POR ESTO: -->
+                        <a href="https://www.teaming.net/a3ghablamosdealmas?lang=es_ES"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="btn btn-card-action btn-card-donacion">Donar ahora</a>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 3: Acoge -->
+                <div class="col">
+                    <div class="card-help">
+                        <div>
+                            <div class="icon-circle icon-acoge">
+                                <i class="bi bi-house-door"></i>
+                            </div>
+                            <h4 class="h5 fw-bold text-dark">Acoge</h4>
+                            <p class="small text-secondary mb-4">
+                                Ofrece un hogar temporal o definitivo a un gato que lo necesita.
+                            </p>
+                        </div>
+                        <a th:href="@{/cats}" class="btn btn-card-action btn-card-acoge">Ver gatos</a>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 4: Hazte voluntario -->
+                <div class="col">
+                    <div class="card-help">
+                        <div>
+                            <div class="icon-circle icon-voluntario">
+                                <i class="bi bi-hand-index-thumb"></i>
+                            </div>
+                            <h4 class="h5 fw-bold text-dark">Hazte voluntario</h4>
+                            <p class="small text-secondary mb-4">
+                                Tu tiempo y dedicación marcan la diferencia en su bienestar.
+                            </p>
+                        </div>
+                        <a th:href="@{/colabora/voluntario}" class="btn btn-card-action btn-card-voluntario">Saber más</a>
+                    </div>
+                </div>
+
             </div>
+
+            <!-- Sección Enlaces de ayuda -->
+            <h3 class="h4 mb-3">Enlaces de ayuda</h3>
+
+            <div class="link-box">
+                <div class="link-box-icon"><i class="bi bi-heart"></i></div>
+                <div>
+                    <h5 class="fw-bold mb-1 fs-6 text-dark">Donación segura</h5>
+                    <p class="small text-secondary mb-1">Realiza tu donación a través de nuestra página segura.</p>
+                    <a href="https://www.teaming.net/a3ghablamosdealmas?lang=es_ES"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="small text-decoration-none fw-semibold"
+                       style="color: var(--a3-teal);">
+                        Ir a Teaming <i class="bi bi-box-arrow-up-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="link-box">
+                <div class="link-box-icon"><i class="bi bi-envelope"></i></div>
+                <div>
+                    <h5 class="fw-bold mb-1 fs-6 text-dark">Contacto directo</h5>
+                    <p class="small text-secondary mb-1">¿Tienes dudas o quieres colaborar de otra forma?</p>
+                    <a href="mailto:info@a3getafe.org" class="small text-decoration-none fw-semibold" style="color: var(--a3-teal);">
+                        Contactar por email <i class="bi bi-box-arrow-up-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Bloque de Cita final -->
+            <div class="quote-box d-flex gap-3 align-items-start">
+                <span class="quote-icon">“</span>
+                <div>
+                    <p class="fst-italic text-dark fw-medium mb-1 fs-6">
+                        No puedes cambiar el mundo, pero puedes cambiar el mundo de un gato.
+                    </p>
+                    <p class="small text-secondary mb-0">Gracias por ser parte de esta misión.</p>
+                </div>
+                <i class="bi bi-paw-print-fill text-warning opacity-50 fs-2 ms-auto"></i>
+            </div>
+
+            <!-- Imagen al final del formulario (a3g.jpg) -->
+            <div class="mt-5">
+                <img th:src="@{/img/a3g.jpg}" alt="A3Getafe" class="a3g-footer-banner">
+            </div>
+
         </div>
     </div>
-</div>
+</main>
+
+<footer class="a3-footer">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <span>© A3Getafe · Protectora de gatos</span>
+        <a class="text-reset text-decoration-none" th:href="@{/colabora}">Cómo colaborar</a>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
