@@ -1,0 +1,488 @@
+/* ==========================================
+   VARIABLES Y ESTILOS GLOBALES
+   ========================================== */
+:root {
+    --a3-ink: #14202b;       /* Barra superior, navegación y títulos */
+    --a3-teal: #1fa588;      /* Color principal de acento */
+    --a3-teal-dark: #178a72;
+    --a3-text: #5b6670;
+    --a3-paper: #ffffff;
+
+    --bs-body-font-family: 'Figtree', system-ui, sans-serif;
+    --bs-body-color: var(--a3-text);
+}
+
+h1, h2, h3, .a3-logo {
+    font-family: 'Fraunces', Georgia, serif;
+}
+
+h1, h2, h3 {
+    color: var(--a3-ink);
+    font-weight: 700;
+}
+
+:focus-visible {
+    outline: 3px solid var(--a3-teal);
+    outline-offset: 2px;
+}
+
+/* ==========================================
+   BARRA SUPERIOR Y NAVEGACIÓN (HEADER)
+   ========================================== */
+.a3-topbar {
+    background: var(--a3-ink);
+    color: #cbd5dc;
+    font-size: .8rem;
+    padding: .55rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.a3-topbar a {
+    color: inherit;
+    text-decoration: none;
+}
+.a3-topbar a:hover {
+    color: #fff;
+}
+
+.a3-nav {
+    background-color: var(--a3-ink);
+}
+.a3-nav .navbar-brand {
+    color: #fff;
+    line-height: 1;
+}
+.a3-logo-img {
+    height: 42px;
+    width: auto;
+    object-fit: contain;
+}
+.a3-logo {
+    font-size: 1.75rem;
+    font-weight: 700;
+    display: block;
+}
+.a3-logo-sub {
+    font-size: .72rem;
+    letter-spacing: .04em;
+    color: #cbd5dc;
+}
+.a3-nav .nav-link {
+    color: #f1f5f7;
+    padding: .5rem 1rem;
+    font-weight: 500;
+}
+.a3-nav .nav-link:hover,
+.a3-nav .nav-link:focus-visible,
+.a3-nav .nav-link.active {
+    color: var(--a3-teal);
+}
+.a3-nav .navbar-toggler {
+    border-color: rgba(255, 255, 255, .5);
+}
+
+@media (max-width: 991.98px) {
+    .a3-nav .navbar-collapse.show,
+    .a3-nav .navbar-collapse.collapsing {
+        background: rgba(20, 32, 43, .96);
+        border-radius: .5rem;
+        padding: 1rem;
+        margin-top: .5rem;
+    }
+}
+
+/* ==========================================
+   BOTONES REUTILIZABLES
+   ========================================== */
+.btn-a3 {
+    background: var(--a3-teal);
+    border-color: var(--a3-teal);
+    color: #fff;
+    border-radius: 50rem;
+    font-weight: 600;
+    padding: .7rem 1.75rem;
+    transition: all .2s ease-in-out;
+}
+.btn-a3:hover,
+.btn-a3:focus-visible {
+    background: var(--a3-teal-dark);
+    border-color: var(--a3-teal-dark);
+    color: #fff;
+}
+.btn-a3:disabled {
+    background-color: #a0aec0;
+    border-color: #a0aec0;
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+.btn-a3-outline {
+    border: 1px solid rgba(255, 255, 255, .7);
+    color: #fff;
+    border-radius: 50rem;
+    font-weight: 600;
+    padding: .7rem 1.75rem;
+    transition: all .2s ease-in-out;
+}
+.btn-a3-outline:hover,
+.btn-a3-outline:focus-visible {
+    background: #fff;
+    color: var(--a3-ink);
+}
+.a3-nav .btn-a3-outline {
+    padding: .4rem 1.25rem;
+}
+
+.btn-a3-light-outline {
+    border: 1px solid #cbd5dc;
+    color: var(--a3-text);
+    background: transparent;
+    border-radius: 50rem;
+    font-weight: 600;
+    padding: .6rem 1.5rem;
+    transition: all .2s ease-in-out;
+}
+.btn-a3-light-outline:hover {
+    background: #f1f5f7;
+    color: var(--a3-ink);
+}
+
+/* ==========================================
+   MIGAS DE PAN (BREADCRUMBS) Y ENCABEZADOS
+   ========================================== */
+.breadcrumb-item a {
+    color: #8c9ba5;
+    text-decoration: none;
+}
+.breadcrumb-item a:hover {
+    color: var(--a3-teal);
+}
+.breadcrumb-item.active {
+    color: var(--a3-teal);
+    font-weight: 500;
+}
+
+.a3-eyebrow {
+    color: var(--a3-teal-dark);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+.intro {
+    max-width: 42rem;
+    margin-inline: auto;
+    color: var(--a3-text);
+}
+
+/* ==========================================
+   HERO (INICIO)
+   ========================================== */
+.a3-hero {
+    position: relative;
+    min-height: 540px;
+    color: #fff;
+    background:
+            linear-gradient(90deg, rgba(20,32,43,0.92) 0%, rgba(20,32,43,0.7) 45%, rgba(20,32,43,0.1) 100%),
+            url('https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=1000') center right / cover no-repeat,
+            var(--a3-ink);
+    display: flex;
+    flex-direction: column;
+}
+.a3-hero h1 {
+    color: #fff;
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height: 1.15;
+}
+.a3-hero .lead {
+    color: #e4eaee;
+    font-size: 1.1rem;
+    max-width: 32rem;
+}
+
+/* ==========================================
+   TARJETAS Y REJILLA DE GATOS
+   ========================================== */
+.a3-section {
+    padding: 4.5rem 0 5rem;
+    background-color: #f8fafc;
+}
+.a3-section h2 {
+    font-size: clamp(2rem, 4vw, 2.6rem);
+}
+
+.a3-cat {
+    position: relative;
+    display: block;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 12px;
+    background: var(--a3-ink);
+    color: #fff;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: transform .2s ease-in-out, box-shadow .2s ease-in-out;
+}
+.a3-cat:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+.a3-cat img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.a3-cat-label {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 1rem 4.5rem 1rem 1.25rem;
+    background: linear-gradient(0deg, rgba(20,32,43,0.95) 0%, rgba(20,32,43,0.75) 70%, rgba(20,32,43,0) 100%);
+}
+.a3-cat-name {
+    font-weight: 700;
+    font-size: 1.15rem;
+    display: block;
+    color: #fff;
+}
+.a3-cat-age {
+    font-size: .88rem;
+    color: #cbd5dc;
+}
+.a3-cat-btn {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--a3-teal-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: background .2s, color .2s, transform .2s;
+}
+.a3-cat:hover .a3-cat-btn,
+.a3-cat:focus-visible .a3-cat-btn {
+    background: var(--a3-teal);
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.a3-cat-status {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 50rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    z-index: 2;
+}
+
+/* ==========================================
+   FICHA DE DETALLE DEL GATO (CAT-DETAIL)
+   ========================================== */
+.cat-main-img {
+    width: 100%;
+    height: 520px;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.spec-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+}
+.spec-icon {
+    font-size: 1.6rem;
+    color: #8c9ba5;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+}
+.spec-label {
+    font-size: 0.85rem;
+    color: #8c9ba5;
+    margin-bottom: 2px;
+}
+.spec-value {
+    font-weight: 600;
+    color: var(--a3-ink);
+    font-size: 0.95rem;
+}
+
+/* ==========================================
+   FORMULARIO DE ADOPCIÓN (ADOPT-FORM)
+   ========================================== */
+.a3-card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+    background: #fff;
+}
+
+.cat-preview-card {
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+    background: #fff;
+}
+.cat-preview-img {
+    width: 100%;
+    height: 380px;
+    object-fit: cover;
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--a3-ink);
+    font-size: 0.9rem;
+}
+.form-control {
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    border-color: #cbd5dc;
+}
+.form-control:focus {
+    border-color: var(--a3-teal);
+    box-shadow: 0 0 0 0.25rem rgba(31, 165, 136, 0.15);
+}
+
+/* ==========================================
+   SECCIÓN COLABORA
+   ========================================== */
+.col-image-side {
+    position: relative;
+    min-height: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(20,32,43,0.1) 0%, rgba(20,32,43,0.85) 100%),
+    url('/img/donacion.jpg') center / cover no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2.5rem;
+    color: #fff;
+}
+.col-image-side h2 {
+    color: #fff;
+    font-size: 2.2rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+.card-help {
+    border: 1px solid #edf2f7;
+    border-radius: 16px;
+    padding: 2rem 1.25rem;
+    text-align: center;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    transition: transform .2s ease, box-shadow .2s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.card-help:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.icon-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.25rem;
+    font-size: 1.5rem;
+}
+.icon-socio { background-color: #ffe8e0; color: #ff6b4a; }
+.icon-donacion { background-color: #e0f2fe; color: #0284c7; }
+.icon-acoge { background-color: #fef3c7; color: #d97706; }
+.icon-voluntario { background-color: #f3e8ff; color: #9333ea; }
+
+.btn-card-action {
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    background: #fff;
+    transition: all .2s;
+}
+.btn-card-socio { border: 1px solid #ff6b4a; color: #ff6b4a; }
+.btn-card-socio:hover { background: #ff6b4a; color: #fff; }
+
+.btn-card-donacion { border: 1px solid #0284c7; color: #0284c7; }
+.btn-card-donacion:hover { background: #0284c7; color: #fff; }
+
+.btn-card-acoge { border: 1px solid #d97706; color: #d97706; }
+.btn-card-acoge:hover { background: #d97706; color: #fff; }
+
+.btn-card-voluntario { border: 1px solid #9333ea; color: #9333ea; }
+.btn-card-voluntario:hover { background: #9333ea; color: #fff; }
+
+.link-box {
+    border: 1px solid #edf2f7;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 1rem;
+}
+.link-box-icon {
+    font-size: 1.5rem;
+    color: var(--a3-ink);
+    background: #f8fafc;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quote-box {
+    background-color: #fffbeb;
+    border-radius: 16px;
+    padding: 1.75rem 2rem;
+    position: relative;
+    margin-top: 2rem;
+}
+.quote-icon {
+    font-size: 2.5rem;
+    color: #f59e0b;
+    line-height: 1;
+    font-family: Georgia, serif;
+}
+
+/* ==========================================
+   IMÁGENES DE BANNER Y FOOTER
+   ========================================== */
+.a3g-footer-banner {
+    width: 100%;
+    max-height: 250px;
+    object-fit: contain;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+footer.a3-footer {
+    background: var(--a3-ink);
+    color: #cbd5dc;
+    font-size: .9rem;
+    padding: 1.75rem 0;
+    margin-top: 4rem;
+}
