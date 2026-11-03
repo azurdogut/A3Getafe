@@ -37,21 +37,21 @@ public class AdoptionRequestController {
     @GetMapping
     @Operation(summary = "Listado de solicitudes de adopción", description = "Devuelve todas las solicitudes: ordenadas por fecha de solicitud")
     @ApiResponses(value = {
-    @ApiResponse(
-        responseCode = "200", 
-        description = "Lista de solicitudes obtenida correctamente (puede estar vacía)",
-        content = @Content(
-            mediaType = "application/json", 
-            array = @ArraySchema(schema = @Schema(implementation = AdoptionRequest.class))
+        @ApiResponse(
+            responseCode = "200", 
+            description = "Lista de solicitudes obtenida correctamente (puede estar vacía)",
+            content = @Content(
+                mediaType = "application/json", 
+                array = @ArraySchema(schema = @Schema(implementation = AdoptionRequest.class))
+            )
         )
-    )
-})  
+    })  
     public List<AdoptionRequest> getAll() {
         return adoptionRequestRepository.findAll(Sort.by(Sort.Direction.ASC, "createdAt"));
     }
     
-@GetMapping("/{id}")
-@Operation(summary = "Obtener solicitud de adopción por ID", description = "Busca y devuelve una solicitud de adopción específica a partir de su ID único")
+    @GetMapping("/{id}")
+    @Operation(summary = "Obtener solicitud de adopción por ID", description = "Busca y devuelve una solicitud de adopción específica a partir de su ID único")
     @ApiResponses(value = {
         @ApiResponse(
             responseCode = "200", 
@@ -86,14 +86,17 @@ public class AdoptionRequestController {
         )
     })
     public AdoptionRequest create(@Valid @RequestBody AdoptionRequest adoptionRequest) {
+        // Sanitizamos los campos de texto para evitar ataques XSS
+        sanitizeAdoptionRequest(adoptionRequest);
+
         // Anulamos el id recibido: save() inserta si el id es null y actualiza si existe,
-        // y aquí queremos que siempre cree un gato nuevo.
+        // y aquí queremos que siempre cree un registro nuevo.
         adoptionRequest.setId(null);
         return adoptionRequestRepository.save(adoptionRequest);
     }
     
-@PutMapping("/{id}")
-@Operation(summary = "Actualizar solicitud de adopción", description = "Modifica los datos de una solicitud de adopción existente buscando por su ID")
+    @PutMapping("/{id}")
+    @Operation(summary = "Actualizar solicitud de adopción", description = "Modifica los datos de una solicitud de adopción existente buscando por su ID")
     @ApiResponses(value = {
         @ApiResponse(
             responseCode = "200", 
@@ -101,12 +104,20 @@ public class AdoptionRequestController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = AdoptionRequest.class))
         ),
         @ApiResponse(
+            responseCode = "400", 
+            description = "Datos inválidos en la solicitud", 
+            content = @Content
+        ),
+        @ApiResponse(
             responseCode = "404", 
             description = "Solicitud no encontrada para actualizar", 
             content = @Content
         )
     })
-    public ResponseEntity<AdoptionRequest> update(@PathVariable Long id, @RequestBody AdoptionRequest adoptionRequestDetails) {
+    public ResponseEntity<AdoptionRequest> update(@PathVariable Long id, @Valid @RequestBody AdoptionRequest adoptionRequestDetails) {
+        // Sanitizamos los datos entrantes
+        sanitizeAdoptionRequest(adoptionRequestDetails);
+
         return adoptionRequestRepository.findById(id)
                 .map(adoptionRequest -> {
                     adoptionRequest.setApplicantName(adoptionRequestDetails.getApplicantName());
@@ -141,5 +152,20 @@ public class AdoptionRequestController {
             return ResponseEntity.noContent().build(); // Devuelve código 204 No Content
         }
         return ResponseEntity.notFound().build();
+    }
+
+    /**
+     * Método auxiliar para sanitizar las entradas de texto y prevenir XSS.
+     */
+    private void sanitizeAdoptionRequest(AdoptionRequest request) {
+        if (request.getApplicantName() != null) {
+            request.setApplicantName(request.getApplicantName().replaceAll("<[^>]*>", "").trim());
+        }
+        if (request.getMessage() != null) {
+            request.setMessage(request.getMessage().replaceAll("<[^>]*>", "").trim());
+        }
+        if (request.getEmail() != null) {
+            request.setEmail(request.getEmail().trim().toLowerCase());
+        }
     }
 }
