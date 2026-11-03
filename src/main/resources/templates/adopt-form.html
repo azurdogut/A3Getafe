@@ -98,23 +98,45 @@
                 <form id="adoptionForm" th:action="@{/adopt}" th:object="${adoptionRequest}" method="post">
                     <input type="hidden" th:field="*{cat.id}" />
 
+                    <!-- Nombre completo -->
                     <div class="mb-3">
                         <label for="applicantName" class="form-label">Tu Nombre completo:</label>
-                        <input type="text" id="applicantName" th:field="*{applicantName}" class="form-control required-field" th:classappend="${#fields.hasErrors('applicantName')} ? 'is-invalid'" placeholder="Ej. Ana Gómez Pérez" required />
-                        <div class="invalid-feedback" th:errors="*{applicantName}">Error en el nombre</div>
+                        <input type="text" id="applicantName" th:field="*{applicantName}" 
+                               class="form-control required-field" 
+                               th:classappend="${#fields.hasErrors('applicantName')} ? 'is-invalid'" 
+                               placeholder="Ej. Ana Gómez Pérez" required />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('applicantName')}" th:errors="*{applicantName}">Error en el nombre</div>
                     </div>
 
+                    <!-- Correo electrónico -->
                     <div class="mb-3">
                         <label for="email" class="form-label">Correo Electrónico:</label>
-                        <input type="email" id="email" th:field="*{email}" class="form-control required-field" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" placeholder="Ej. ana@correo.com" required />
-                        <div class="invalid-feedback" th:errors="*{email}">Error en el email</div>
+                        <input type="email" id="email" th:field="*{email}" 
+                               class="form-control required-field" 
+                               th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" 
+                               placeholder="Ej. ana@correo.com" required />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error en el email</div>
                     </div>
 
+                    <!-- Mensaje -->
                     <div class="mb-4">
                         <label for="message" class="form-label">Cuéntanos por qué quieres adoptarlo:</label>
-                        <textarea id="message" th:field="*{message}" class="form-control required-field" rows="4" placeholder="Escribe brevemente sobre tu experiencia con animales, tu hogar..." required></textarea>
+                        <textarea id="message" th:field="*{message}" 
+                                  class="form-control required-field" 
+                                  th:classappend="${#fields.hasErrors('message')} ? 'is-invalid'" 
+                                  rows="4" placeholder="Escribe brevemente sobre tu experiencia con animales, tu hogar..." required></textarea>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('message')}" th:errors="*{message}">Error en el mensaje</div>
                     </div>
 
+                    <!-- Cláusula de Protección de Datos (RGPD) -->
+                    <div class="mb-4 form-check">
+                        <input type="checkbox" class="form-check-input required-field" id="privacyPolicy" name="privacyPolicy" required />
+                        <label class="form-check-label small text-secondary" for="privacyPolicy">
+                            He leído y acepto la <a href="/privacidad" target="_blank">política de privacidad</a>. Mis datos solo se utilizarán para gestionar la solicitud de adopción.
+                        </label>
+                    </div>
+
+                    <!-- Botón de envío -->
                     <button type="submit" id="submitBtn" class="btn btn-a3 w-100 py-3 mb-2" disabled>
                         <i class="bi bi-heart me-2"></i> Enviar Solicitud de Adopción
                     </button>
@@ -140,7 +162,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Script de validación de campos vacíos -->
+<!-- Script de validación de campos vacíos y checkbox de privacidad -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('adoptionForm');
@@ -150,7 +172,11 @@
         function checkInputs() {
             let allFilled = true;
             requiredInputs.forEach(input => {
-                if (!input.value.trim()) {
+                if (input.type === 'checkbox') {
+                    if (!input.checked) {
+                        allFilled = false;
+                    }
+                } else if (!input.value.trim()) {
                     allFilled = false;
                 }
             });
